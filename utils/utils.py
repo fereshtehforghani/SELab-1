@@ -40,3 +40,15 @@ def normalize_2(data):
     return data
 
 
+def remove_extra_white_space(text):
+    return re.sub(r'(?<!\n)\n(?![\n\t])', ' ', text.replace('\r', ''))
+
+
+def preprocess(text):
+    text = remove_extra_white_space(text)
+    return textacy.make_spacy_doc(text, lang=en)
+
+
+def read_file(path):
+    with open(path) as file:
+        return file.read()
