@@ -24,4 +24,19 @@ def segment(doc, segmentation):
     raise ValueError('Token is either s for sentences or g for n-grams!')
 
 
+def normalize(X):
+    X_min = X.min(0)
+    X_max = X.max(0)
+    diff = (X_max - X_min)
+    diff[diff == 0] = 1
+    return (X - X_min) / diff
+
+
+def normalize_2(data):
+    if max(data) - min(data) == 0.0:
+        data = (np.array(data) - min(data))
+    else:
+        data = (np.array(data) - min(data))/(max(data) - min(data))
+    return data
+
 
