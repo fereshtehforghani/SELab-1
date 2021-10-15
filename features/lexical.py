@@ -27,3 +27,14 @@ def to_terms_list(doc, ngrams=1, **kwargs):
     else:
         for term in terms:
             yield term.text
+
+@lru_cache(maxsize=32)
+def bag_of_terms(doc, ngrams=1, **kwargs):
+    kwargs['normalize'] = stem
+    if isinstance(doc, spacy.tokens.doc.Doc):
+        return doc._.to_bag_of_terms(ngrams=ngrams, as_strings=True, **kwargs)
+    return Counter(to_terms_list(doc, ngrams, **kwargs))
+
+
+def stem(token):
+    return stemmer.stem(token.lemma_)
