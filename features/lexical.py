@@ -38,3 +38,16 @@ def bag_of_terms(doc, ngrams=1, **kwargs):
 
 def stem(token):
     return stemmer.stem(token.lemma_)
+
+def brunet_measure(bot, n, v):
+    a = 0.17
+    if n == 0 or n == 1:
+        return 0
+    return (v - a) / (np.log(n))
+
+
+def hapax_dislegemena(bot, n, v):
+    v2 = len([word for word, count in bot.items() if count == 2])
+    if n == 0:
+        return 0
+    return v2 / n
