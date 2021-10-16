@@ -51,3 +51,16 @@ def hapax_dislegemena(bot, n, v):
     if n == 0:
         return 0
     return v2 / n
+
+def hapax_legomena(bot, n, v):
+    v1 = len([word for word, count in bot.items() if count == 1])
+    if n == 0:
+        return 0
+    return v1 / n
+
+
+def honore_measure(bot, n, v):
+    v1 = len([word for word, count in bot.items() if count == 1])
+    if n == 0:
+        return 0
+    return 100 * np.log(n) / max(1, (1 - v1 / v))
