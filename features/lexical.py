@@ -64,3 +64,16 @@ def honore_measure(bot, n, v):
     if n == 0:
         return 0
     return 100 * np.log(n) / max(1, (1 - v1 / v))
+
+def shannon_entropy(bot, n, v):
+    if n == 0:
+        return 0
+    freqs = np.array(list(bot.values())) / n
+    return entropy(freqs, base=2)
+
+
+def sichel_measure(bot, n, v):
+    v2 = len([word for word, count in bot.items() if count == 2])
+    if n == 0:
+        return 0
+    return v2 / v
