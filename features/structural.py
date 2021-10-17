@@ -13,3 +13,13 @@ def mean_word_length(seg):
 def punctuation_count(seg):
     puncts = [token for token in seg if token.is_punct]
     return len(puncts) / len(seg)
+
+
+def sentence_length(seg):
+    words = [token for token in seg if not token.is_punct]
+    return len(words)
+
+
+def stopword_count(seg):
+    stops = [token for token in seg if token.is_stop]
+    return len(stops) / len(seg)
