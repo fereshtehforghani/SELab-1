@@ -89,3 +89,42 @@ def type_token_ratio(bot, n, v):
     if n == 0:
         return 0
     return v / n
+
+def yule_characteristic(bot, n, v):
+    freqs = Counter(bot.values())
+    s = sum([(i ** 2) * vi for i, vi in freqs.items()])
+    if n == 0:
+        return 0
+    return 10000 * (s - n) / (n ** 2)
+
+
+def vocabulary_richness_vec(seg, f_index):
+    bot = bag_of_terms(seg)
+    n = sum(bot.values())
+    v = len(bot)
+    feature_vector = [feature_func[i](bot, n, v) for i in f_index]
+    return feature_vector
+
+
+def extract_features(segmentation, segments):
+    f_index = seg_feature[segmentation]
+    X = np.empty((len(segments), len(f_index)))
+    for i, seg in enumerate(segments):
+        X[i] = vocabulary_richness_vec(seg, f_index)
+    return normalize(X)
+
+
+feature_name = ['Brunet_Measure', 'Hapax_DisLegemena', 'Hapax_Legomena',
+                'Honore_Measure', 'Shannon_Entropy', 'Sichel_Measure',
+                'Simpsons_Index', 'Type_Token_Ratio', 'Yule_Characteristic']
+
+feature_func = [brunet_measure, hapax_dislegemena, hapax_legomena,
+                honore_measure, shannon_entropy, sichel_measure,
+                simpsons_index, type_token_ratio, yule_characteristic]
+
+seg_feature = {'g11-05': [3, 4],
+               'g20-10': [0, 1, 2, 3, 4, 7],
+               'g30-10': [0, 1, 2, 3, 4, 5, 6, 7, 8],
+               'g09-00': [0, 3, 4, 6],
+               'g05-00': [],
+               's': [0, 1, 2, 3, 4, 5, 6, 7, 8]}
