@@ -23,3 +23,22 @@ def sentence_length(seg):
 def stopword_count(seg):
     stops = [token for token in seg if token.is_stop]
     return len(stops) / len(seg)
+
+feature_name = ['Mean_Word_Length', 'Punctuation_Count', 'Sent_Length', 'Stopword_Count']
+
+feature_func = [mean_word_length, punctuation_count, sentence_length, stopword_count]
+
+seg_feature = {'g11-05': [0, 3],
+               'g20-10': [0, 3],
+               'g30-10': [0, 3],
+               'g09-00': [0, 3],
+               'g05-00': [3],
+               's': [0, 1, 2, 3]}
+
+
+def extract_features(segmentation, segments):
+    f_index = seg_feature[segmentation]
+    X = np.empty((len(segments), len(f_index)))
+    for i, seg in enumerate(segments):
+        X[i] = [feature_func[j](seg) for j in f_index]
+    return normalize(X)
