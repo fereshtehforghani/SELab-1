@@ -21,10 +21,11 @@ def extract_all_features(doc, doc_name):
     for seg in segmentations:
         segments = segment(doc, seg)
         lexical_features = lexical.extract_features(seg, segments)
+        structural_features = structural.extract_features(seg, segments)
         for i, f_indx in enumerate(lexical.seg_feature[seg]):
             feature_dict[lexical.feature_name[f_indx]][seg][doc_name] = {'Feature': lexical_features[:, i]}
-    for i, f_indx in enumerate(structural.seg_feature[seg]):
-        feature_dict[structural.feature_name[f_indx]][seg][doc_name] = {'Feature': structural_features[:, i]}
+        for i, f_indx in enumerate(structural.seg_feature[seg]):
+            feature_dict[structural.feature_name[f_indx]][seg][doc_name] = {'Feature': structural_features[:, i]}
     return feature_dict
 
 
